@@ -20,4 +20,9 @@ public class DbInitServiceImpl implements DbInitService {
     public void initRootDir(FileTreeItem rootDir) {
         this.dbInitMapper.initRootDir(rootDir);
     }
+
+    @Override
+    public void initArchiveTable() {
+        this.dbInitMapper.initArchiveTable();
+    }
 }

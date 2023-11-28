@@ -19,7 +19,9 @@ public class DbInitializer implements ApplicationRunner {
         rootDir.setParent(-1);
         rootDir.setType("dir");
         rootDir.setName("root");
+        rootDir.setPath("/");
         this.dbInitService.initFileTreeTable();
         this.dbInitService.initRootDir(rootDir);
+        this.dbInitService.initArchiveTable();
     }
 }

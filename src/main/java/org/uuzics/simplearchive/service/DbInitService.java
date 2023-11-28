@@ -6,4 +6,6 @@ public interface DbInitService {
     void initFileTreeTable();
 
     void initRootDir(FileTreeItem rootDir);
+
+    void initArchiveTable();
 }
