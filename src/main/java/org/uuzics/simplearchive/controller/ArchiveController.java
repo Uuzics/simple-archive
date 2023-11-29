@@ -15,7 +15,7 @@ public class ArchiveController {
     private ArchiveService archiveService;
 
     @RequestMapping(value = "/archive/{archiveSlug}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
-    public String helloWorld(@PathVariable("archiveSlug") String archiveSlug, Model model) {
+    public String handleGetArchive(@PathVariable("archiveSlug") String archiveSlug, Model model) {
         Archive archive = this.archiveService.getArchiveBySlug(archiveSlug);
         if (null != archive) {
             model.addAttribute("archive", Archive.completeOptionalField(archive));
