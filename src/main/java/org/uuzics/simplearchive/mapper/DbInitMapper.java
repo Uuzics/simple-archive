@@ -18,4 +18,17 @@ public interface DbInitMapper {
             );
             """)
     void initArchiveTable();
+
+    @Update("""
+            CREATE TABLE "file" (
+            	"id"	INTEGER NOT NULL,
+            	"archive_id"	INTEGER NOT NULL,
+            	"slug"	TEXT NOT NULL UNIQUE,
+            	"name"	TEXT NOT NULL,
+            	"status"	TEXT NOT NULL,
+            	FOREIGN KEY("archive_id") REFERENCES "archive"("id"),
+            	PRIMARY KEY("id" AUTOINCREMENT)
+            );
+            """)
+    void initFileTable();
 }
