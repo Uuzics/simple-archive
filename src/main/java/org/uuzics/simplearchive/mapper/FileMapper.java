@@ -16,6 +16,7 @@ public interface FileMapper {
             SELECT id, archive_id, slug, name, status
             FROM file
             WHERE archive_id=#{archiveId} AND status="active"
+            ORDER BY name ASC
             """)
     @Results({
             @Result(property = "id", column = "id", javaType = Long.class),
