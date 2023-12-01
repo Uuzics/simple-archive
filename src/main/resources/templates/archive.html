@@ -11,6 +11,14 @@
 <p style="white-space: pre-wrap" th:text="${archive.description}">Description</p>
 <hr/>
 <h2>File List</h2>
+<th:block th:if="${#lists.isEmpty(fileList)}">
+    <p>The list is empty</p>
+</th:block>
+<ul th:unless="${#lists.isEmpty(fileList)}">
+    <li th:each="file : ${fileList}">
+        <a th:href="${file.url}" th:text="${file.name}" target="_blank">File name</a>
+    </li>
+</ul>
 <hr/>
 </body>
 </html>
