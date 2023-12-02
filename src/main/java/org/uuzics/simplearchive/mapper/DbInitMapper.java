@@ -20,7 +20,7 @@ public interface DbInitMapper {
     void initArchiveTable();
 
     @Update("""
-            CREATE TABLE "file" (
+            CREATE TABLE IF NOT EXISTS "file" (
             	"id"	INTEGER NOT NULL,
             	"archive_id"	INTEGER NOT NULL,
             	"slug"	TEXT NOT NULL UNIQUE,
