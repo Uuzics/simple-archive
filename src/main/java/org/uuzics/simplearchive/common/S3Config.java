@@ -14,21 +14,21 @@ import java.net.URI;
 
 @Configuration
 public class S3Config {
-    @Value("${s3-storage.endpoint}")
+    @Value("${simple-archive.s3-storage.endpoint}")
     private String endpoint;
 
-    @Value("${s3-storage.bucket}")
+    @Value("${simple-archive.s3-storage.bucket}")
     @Getter
     private String bucket;
 
-    @Value("${s3-storage.presign-duration}")
+    @Value("${simple-archive.s3-storage.presign-duration}")
     @Getter
     private long presignDuration;
 
-    @Value("${s3-storage.access-key}")
+    @Value("${simple-archive.s3-storage.access-key}")
     private String accessKey;
 
-    @Value("${s3-storage.secret-key}")
+    @Value("${simple-archive.s3-storage.secret-key}")
     private String secretKey;
 
     @Bean
