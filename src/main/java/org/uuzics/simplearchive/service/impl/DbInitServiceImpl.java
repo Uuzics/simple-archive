@@ -14,9 +14,4 @@ public class DbInitServiceImpl implements DbInitService {
     public void initArchiveTable() {
         this.dbInitMapper.initArchiveTable();
     }
-
-    @Override
-    public void initFileTable() {
-        this.dbInitMapper.initFileTable();
-    }
 }

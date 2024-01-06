@@ -9,9 +9,11 @@ public class Archive {
     @Getter @Setter
     private String slug;
     @Getter @Setter
-    private String title;
+    private String title; // Optional
     @Getter @Setter
-    private String description;
+    private String description; // Optional
+    @Getter @Setter
+    private String fileListJsonObj;
     @Getter @Setter
     private String status;
 
