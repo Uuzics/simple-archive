@@ -26,6 +26,21 @@ public interface ArchiveMapper {
     Archive getArchiveBySlug(String slug);
 
     @Select("""
+            SELECT id, slug, title, description, file_list, status
+            FROM archive
+            WHERE slug=#{slug}
+            """)
+    @Results({
+            @Result(property = "id", column = "id", javaType = Long.class),
+            @Result(property = "slug", column = "slug", javaType = String.class),
+            @Result(property = "title", column = "title", javaType = String.class),
+            @Result(property = "description", column = "description", javaType = String.class),
+            @Result(property = "fileListJsonObj", column = "file_list", javaType = String.class),
+            @Result(property = "status", column = "status", javaType = String.class)
+    })
+    Archive adminGetArchiveBySlug(String slug);
+
+    @Select("""
             SELECT slug, title
             FROM archive
             ORDER BY id

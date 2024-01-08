@@ -8,6 +8,8 @@ import java.util.List;
 public interface ArchiveService {
     Archive getArchiveBySlug(String slug);
 
+    Archive adminGetArchiveBySlug(String slug);
+
     List<FrontendListedArchive> adminGetPaginatedArchive(long limit, long offset);
 
     long adminGetArchiveCount();

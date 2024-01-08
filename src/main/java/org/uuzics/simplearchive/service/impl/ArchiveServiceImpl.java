@@ -20,6 +20,11 @@ public class ArchiveServiceImpl implements ArchiveService {
     }
 
     @Override
+    public Archive adminGetArchiveBySlug(String slug) {
+        return this.archiveMapper.adminGetArchiveBySlug(slug);
+    }
+
+    @Override
     public List<FrontendListedArchive> adminGetPaginatedArchive(long limit, long offset) {
         List<FrontendListedArchive> archiveList = this.archiveMapper.adminGetPaginatedArchive(limit, offset);
         for (FrontendListedArchive archiveItem : archiveList) {
