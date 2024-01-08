@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Archive Editor</title>
+</head>
+<body>
+<h1>Archive Editor</h1>
+<hr/>
+<a href="/admin/dash">Dashboard</a>
+<a href="/admin/new">New Archive</a>
+<hr/>
+
+<div class="form-container">
+    <form id="archiveForm">
+        <label for="archiveName">Archive Title:</label>
+        <input type="text" id="archiveName" name="archiveName" required>
+        <br/>
+        <label for="archiveSlug">Archive Slug:</label>
+        <input type="text" id="archiveSlug" name="archiveSlug" required>
+        <button type="button" onclick="checkSlug()">Check</button>
+        <div id="slugAvailability" style="display: inline-block">
+            <b>Please check slug availability before saving.</b>
+        </div>
+        <br/>
+        <label for="archiveStatus">Archive Status:</label>
+        <select id="archiveStatus" name="archiveStatus" required>
+            <option value="active">Active</option>
+            <option value="hidden">Hidden</option>
+        </select>
+        <br/>
+        <label for="archiveDescription">Archive Description:</label>
+        <br/>
+        <textarea id="archiveDescription" name="archiveDescription" rows="4" cols="64"></textarea>
+        <br/>
+        <label><b>File List</b></label>
+        <div id="fileFields">
+            <div>
+                <label for="fileName">File Name:</label>
+                <input type="text" id="fileName" name="fileName" required>
+                <label for="fileUrl">URL:</label>
+                <input type="text" id="fileUrl" name="fileUrl">
+                <button type="button" onclick="removeFileField(this)">Remove</button>
+            </div>
+        </div>
+
+        <button type="button" onclick="addFileField()">Add File</button>
+        <button type="button" onclick="submitForm()">Save</button>
+    </form>
+</div>
+
+<script>
+    function addFileField() {
+        const fileFieldsContainer = document.getElementById('fileFields');
+        const newDiv = document.createElement('div');
+        newDiv.innerHTML = `
+            <label for="fileName">File Name:</label>
+            <input type="text" name="fileName" required>
+            <label for="fileUrl">URL:</label>
+            <input type="text" name="fileUrl">
+            <button type="button" onclick="removeFileField(this)">Remove</button>
+        `;
+        fileFieldsContainer.appendChild(newDiv);
+    }
+
+    function removeFileField(button) {
+        const fileFieldsContainer = document.getElementById('fileFields');
+        const divToRemove = button.parentNode;
+        if (fileFieldsContainer.childElementCount > 1) {
+            fileFieldsContainer.removeChild(divToRemove);
+        } else {
+            alert("Require at least one file");
+        }
+    }
+
+    function submitForm() {
+        const archiveForm = document.getElementById('archiveForm');
+        const formData = serializeForm(archiveForm);
+        // console.log(formData);
+        fetch('/admin/api/save_archive', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                alert(data.message);
+                window.location.href = '/admin/dash';
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Archive save failed due to frontend error.');
+        });
+    }
+
+    function serializeForm(form) {
+        const formData = {};
+        const archiveNameInput = form.querySelector('#archiveName');
+        const archiveSlugInput = form.querySelector('#archiveSlug');
+        const archiveStatusInput = form.querySelector('#archiveStatus');
+        const archiveDescriptionInput = form.querySelector('#archiveDescription');
+        const fileFieldsContainer = form.querySelector('#fileFields');
+
+        formData.archiveName = archiveNameInput.value;
+        formData.archiveSlug = archiveSlugInput.value;
+        formData.archiveStatus = archiveStatusInput.value;
+        formData.archiveDescription = archiveDescriptionInput.value;
+        formData.fileList = [];
+        for (const div of fileFieldsContainer.children) {
+            const nameInput = div.querySelector('[name="fileName"]');
+            const urlInput = div.querySelector('[name="fileUrl"]');
+            formData.fileList.push({
+                fileName: nameInput.value,
+                fileUrl: urlInput.value
+            });
+        }
+        return formData;
+    }
+
+    function checkSlug() {
+        const archiveSlugInput = document.getElementById('archiveForm').querySelector('#archiveSlug');
+        const archiveSlug = archiveSlugInput.value;
+        fetch('/admin/api/check_slug?slug=' + archiveSlug, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'available') {
+                document.getElementById("slugAvailability").innerHTML = `
+                    <b style="color: green">Slug available.</b>
+                `;
+            } else if (data.status === 'unavailable') {
+                document.getElementById("slugAvailability").innerHTML = `
+                    <b style="color: red">Slug already in use. Saving will overwrite the previous archive.</b>
+                `;
+            } else if (data.status === 'invalid') {
+                document.getElementById("slugAvailability").innerHTML = `
+                    <b style="color: red">Invalid. Slug should only contain lowercase letters and hyphens.</b>
+                `;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Slug check failed due to frontend error.');
+        });
+    }
+</script>
+</body>
+</html>
