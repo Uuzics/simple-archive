@@ -13,35 +13,71 @@
 
 <div class="form-container">
     <form id="archiveForm">
-        <label for="archiveName">Archive Title:</label>
-        <input type="text" id="archiveName" name="archiveName" required>
-        <br/>
-        <label for="archiveSlug">Archive Slug:</label>
-        <input type="text" id="archiveSlug" name="archiveSlug" required>
-        <button type="button" onclick="checkSlug()">Check</button>
-        <div id="slugAvailability" style="display: inline-block">
-            <b>Please check slug availability before saving.</b>
-        </div>
-        <br/>
-        <label for="archiveStatus">Archive Status:</label>
-        <select id="archiveStatus" name="archiveStatus" required>
-            <option value="active">Active</option>
-            <option value="hidden">Hidden</option>
-        </select>
-        <br/>
-        <label for="archiveDescription">Archive Description:</label>
-        <br/>
-        <textarea id="archiveDescription" name="archiveDescription" rows="4" cols="64"></textarea>
-        <br/>
-        <label><b>File List</b></label>
-        <div id="fileFields">
-            <div>
-                <label for="fileName">File Name:</label>
-                <input type="text" id="fileName" name="fileName" required>
-                <label for="fileUrl">URL:</label>
-                <input type="text" id="fileUrl" name="fileUrl">
-                <button type="button" onclick="removeFileField(this)">Remove</button>
+        <th:block th:if="${editorMode == 'new'}">
+            <label for="archiveName">Archive Title:</label>
+            <input type="text" id="archiveName" name="archiveName" required>
+            <br/>
+            <label for="archiveSlug">Archive Slug:</label>
+            <input type="text" id="archiveSlug" name="archiveSlug" required>
+            <button type="button" onclick="checkSlug()">Check</button>
+            <div id="slugAvailability" style="display: inline-block">
+                <b>Please check slug availability before saving.</b>
             </div>
+            <br/>
+            <label for="archiveStatus">Archive Status:</label>
+            <select id="archiveStatus" name="archiveStatus" required>
+                <option value="active">Active</option>
+                <option value="hidden">Hidden</option>
+            </select>
+            <br/>
+            <label for="archiveDescription">Archive Description:</label>
+            <br/>
+            <textarea id="archiveDescription" name="archiveDescription" rows="4" cols="64"></textarea>
+            <br/>
+            <label><b>File List</b></label>
+        </th:block>
+        <th:block th:if="${editorMode == 'edit'}">
+            <label for="archiveName">Archive Title:</label>
+            <input type="text" id="archiveName" name="archiveName" value="" th:value="${archive.title}" required>
+            <br/>
+            <label for="archiveSlug">Archive Slug:</label>
+            <input type="text" id="archiveSlug" name="archiveSlug" value="" th:value="${archive.slug}" required>
+            <button type="button" onclick="checkSlug()">Check</button>
+            <div id="slugAvailability" style="display: inline-block">
+                <b>Please check slug availability before saving.</b>
+            </div>
+            <br/>
+            <label for="archiveStatus">Archive Status:</label>
+            <select id="archiveStatus" name="archiveStatus" required>
+                <option value="active">Active</option>
+                <option value="hidden">Hidden</option>
+            </select>
+            <br/>
+            <label for="archiveDescription">Archive Description:</label>
+            <br/>
+            <textarea id="archiveDescription" name="archiveDescription" rows="4" cols="64" th:text="${archive.description}"></textarea>
+            <br/>
+            <label><b>File List</b></label>
+        </th:block>
+        <div id="fileFields">
+            <th:block th:if="${editorMode == 'new'}">
+                <div>
+                    <label for="fileName">File Name:</label>
+                    <input type="text" id="fileName" name="fileName" required>
+                    <label for="fileUrl">URL:</label>
+                    <input type="text" id="fileUrl" name="fileUrl">
+                    <button type="button" onclick="removeFileField(this)">Remove</button>
+                </div>
+            </th:block>
+            <th:block th:if="${editorMode == 'edit'}">
+                <div th:each="file : ${fileList}">
+                    <label>File Name:</label>
+                    <input type="text" id="fileName" name="fileName" value="" th:value="${file.name}" required>
+                    <label for="fileUrl">URL:</label>
+                    <input type="text" id="fileUrl" name="fileUrl" value="" th:value="${file.url}">
+                    <button type="button" onclick="removeFileField(this)">Remove</button>
+                </div>
+            </th:block>
         </div>
 
         <button type="button" onclick="addFileField()">Add File</button>

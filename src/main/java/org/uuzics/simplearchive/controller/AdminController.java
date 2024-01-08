@@ -27,8 +27,26 @@ public class AdminController {
         return "admin_dash";
     }
     @RequestMapping(value = "/new", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
-    public String handleEditor(Model model){
+    public String handleEditorNew(Model model){
+        model.addAttribute("editorMode", "new");
         return "admin_editor";
+    }
+
+    @RequestMapping(value = "/edit/{archiveSlug}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String handleEditorEdit(@PathVariable("archiveSlug") String archiveSlug, Model model) {
+        Archive archive = this.archiveService.adminGetArchiveBySlug(archiveSlug);
+        if (null != archive) {
+            model.addAttribute("editorMode", "edit");
+            String fileListJsonObj = archive.getFileListJsonObj();
+            Type fileListType = new TypeToken<List<File>>() {
+            }.getType();
+            List<File> fileList = new Gson().fromJson(fileListJsonObj, fileListType);
+            model.addAttribute("fileList", fileList);
+            model.addAttribute("archive", archive);
+            return "admin_editor";
+        } else {
+            return "not_found";
+        }
     }
 
     @RequestMapping(value = "/view/{archiveSlug}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
