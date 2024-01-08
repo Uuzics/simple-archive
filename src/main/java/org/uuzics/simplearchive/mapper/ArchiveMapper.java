@@ -59,8 +59,13 @@ public interface ArchiveMapper {
     long adminGetArchiveCount();
 
     @Insert("""
-            REPLACE INTO archive(slug, title, description, file_list, status)
+            INSERT INTO archive(slug, title, description, file_list, status)
             VALUES(#{slug}, #{title}, #{description}, #{fileListJsonObj}, #{status})
+            ON CONFLICT(slug) DO UPDATE SET
+            title = excluded.title,
+            description = excluded.description,
+            file_list = excluded.file_list,
+            status = excluded.status;
             """)
     void adminSaveArchive(Archive archive);
 
