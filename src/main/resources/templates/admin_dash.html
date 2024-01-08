@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Archive Dashboard</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+    </style>
 </head>
 <body>
 <h1>Archive Dashboard</h1>
@@ -10,6 +16,110 @@
 <a href="/admin/dash">Dashboard</a>
 <a href="/admin/new">New Archive</a>
 <hr/>
+<div>
+    <h2>Archive Search</h2>
+</div>
+
+<div id="archiveListContainer">
+    <h2>Archive Navigator</h2>
+    <div id="pageControl"></div>
+    <div id="archiveList"></div>
+</div>
+
+<script>
+    function fetchData(pageNumber) {
+        fetch('/admin/api/list_archive?page=' + pageNumber)
+            .then(response => response.json())
+            .then(data => {
+                updateList(data.archiveList);
+                updatePageCtrl(data.pageCount, pageNumber);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }
+
+    function updateList(archiveList) {
+        var archiveListDiv = document.getElementById('archiveList');
+        archiveListDiv.innerHTML = '<table>'
+            + '<tr><th>Archive</th><th>Operation</th></tr>'
+            + archiveList.map(
+                archiveItem => '<tr><td><a href="/admin/view/'
+                    + archiveItem.archiveSlug
+                    + '" target="_blank">'
+                    + archiveItem.archiveName
+                    + '</a></td>'
+                    + '<td><a href="/admin/edit/'
+                    + archiveItem.archiveSlug
+                    + '" target="_blank">'
+                    + 'Edit'
+                    + '</a></td></tr>'
+                ).join('')
+            + '</table>';
+    }
+
+    function updatePageCtrl(pageCount, currentPage) {
+        var pageCtrlDiv = document.getElementById('pageControl');
+        pageCtrlDiv.innerHTML = '';
+
+        var firstPageButton = document.createElement('button');
+        firstPageButton.innerText = '|<';
+        firstPageButton.onclick = function() {
+            fetchData(1);
+        };
+        pageCtrlDiv.appendChild(firstPageButton);
+
+        var startPage, endPage;
+        if (pageCount <= 5 || currentPage <= 3) {
+            startPage = 1;
+            endPage = Math.min(5, pageCount);
+        } else if (currentPage >= pageCount - 2) {
+            startPage = pageCount - 4;
+            endPage = pageCount;
+        } else {
+            startPage = currentPage - 2;
+            endPage = currentPage + 2;
+        }
+        for (var i = startPage; i <= endPage; i++) {
+            var button = document.createElement('button');
+            button.innerText = i;
+            button.onclick = function() {
+                fetchData(parseInt(this.innerText));
+            };
+            pageCtrlDiv.appendChild(button);
+        }
+
+        var lastPageButton = document.createElement('button');
+        lastPageButton.innerText = '>|';
+        lastPageButton.onclick = function() {
+            fetchData(pageCount);
+        };
+        pageCtrlDiv.appendChild(lastPageButton);
+
+        var inputField = document.createElement('input');
+        inputField.type = 'number';
+        inputField.min = 1;
+        inputField.max = pageCount;
+        inputField.value = currentPage;
+        pageCtrlDiv.appendChild(inputField);
+
+        var goButton = document.createElement('button');
+        goButton.innerText = 'Go';
+        goButton.onclick = function() {
+            var inputPage = parseInt(inputField.value);
+            if (inputPage >= 1 && inputPage <= pageCount) {
+                fetchData(inputPage);
+            } else {
+                alert('Please enter a valid page number.');
+            }
+        };
+        pageCtrlDiv.appendChild(goButton);
+    }
+
+    function initPage() {
+        fetchData(1);
+    }
+
+    window.onload = initPage;
+</script>
 
 </body>
 </html>

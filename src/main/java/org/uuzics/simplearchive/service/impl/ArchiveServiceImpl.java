@@ -3,6 +3,7 @@ package org.uuzics.simplearchive.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.uuzics.simplearchive.entity.Archive;
+import org.uuzics.simplearchive.entity.FrontendListedArchive;
 import org.uuzics.simplearchive.mapper.ArchiveMapper;
 import org.uuzics.simplearchive.service.ArchiveService;
 
@@ -19,8 +20,14 @@ public class ArchiveServiceImpl implements ArchiveService {
     }
 
     @Override
-    public List<Archive> adminGetPaginatedArchive(long limit, long offset) {
-        return this.archiveMapper.adminGetPaginatedArchive(limit, offset);
+    public List<FrontendListedArchive> adminGetPaginatedArchive(long limit, long offset) {
+        List<FrontendListedArchive> archiveList = this.archiveMapper.adminGetPaginatedArchive(limit, offset);
+        for (FrontendListedArchive archiveItem : archiveList) {
+            if (null == archiveItem.getArchiveName() || "".equals(archiveItem.getArchiveName())) {
+                archiveItem.setArchiveName(String.format("[Untitled: %s]", archiveItem.getArchiveSlug()));
+            }
+        }
+        return archiveList;
     }
 
     @Override

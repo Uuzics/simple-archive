@@ -3,6 +3,7 @@ package org.uuzics.simplearchive.mapper;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 import org.uuzics.simplearchive.entity.Archive;
+import org.uuzics.simplearchive.entity.FrontendListedArchive;
 
 import java.util.List;
 
@@ -25,20 +26,16 @@ public interface ArchiveMapper {
     Archive getArchiveBySlug(String slug);
 
     @Select("""
-            SELECT id, slug, title, description, file_list, status
+            SELECT slug, title
             FROM archive
             ORDER BY id
             LIMIT #{limit} OFFSET #{offset};
             """)
     @Results({
-            @Result(property = "id", column = "id", javaType = Long.class),
-            @Result(property = "slug", column = "slug", javaType = String.class),
-            @Result(property = "title", column = "title", javaType = String.class),
-            @Result(property = "description", column = "description", javaType = String.class),
-            @Result(property = "fileListJsonObj", column = "file_list", javaType = String.class),
-            @Result(property = "status", column = "status", javaType = String.class)
+            @Result(property = "archiveSlug", column = "slug", javaType = String.class),
+            @Result(property = "archiveName", column = "title", javaType = String.class)
     })
-    List<Archive> adminGetPaginatedArchive(long limit, long offset);
+    List<FrontendListedArchive> adminGetPaginatedArchive(long limit, long offset);
 
     @Select("""
             SELECT count(*)

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.uuzics.simplearchive.entity.Archive;
 import org.uuzics.simplearchive.entity.File;
 import org.uuzics.simplearchive.entity.FrontendFile;
+import org.uuzics.simplearchive.entity.FrontendListedArchive;
 import org.uuzics.simplearchive.entity.request.ArchiveEditRequest;
 import org.uuzics.simplearchive.entity.response.ArchiveEditResponse;
 import org.uuzics.simplearchive.entity.response.ArchiveSlugCheckResponse;
@@ -108,11 +109,11 @@ public class AdminApiController {
         final long pageSize = 10;
         long archiveNum = this.archiveService.adminGetArchiveCount();
         long pageCount = new BigDecimal(archiveNum).divide(new BigDecimal(pageSize), RoundingMode.UP).longValue();
-        // TODO change to frontend archive display
-        List<Archive> paginatedArchiveList = this.archiveService.adminGetPaginatedArchive(
+        List<FrontendListedArchive> paginatedArchiveList = this.archiveService.adminGetPaginatedArchive(
                 pageSize, Math.min(archiveNum, (page - 1) * pageSize));
         PaginatedArchiveListResponse response = new PaginatedArchiveListResponse();
         response.setPageCount(pageCount);
+        response.setArchiveList(paginatedArchiveList);
         return response;
     }
 }
