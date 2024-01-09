@@ -41,12 +41,28 @@ public interface ArchiveMapper {
     Archive adminGetArchiveBySlug(String slug);
 
     @Select("""
-            SELECT slug, title
+            SELECT id, slug, title, description, file_list, status
+            FROM archive
+            WHERE id=#{id}
+            """)
+    @Results({
+            @Result(property = "id", column = "id", javaType = Long.class),
+            @Result(property = "slug", column = "slug", javaType = String.class),
+            @Result(property = "title", column = "title", javaType = String.class),
+            @Result(property = "description", column = "description", javaType = String.class),
+            @Result(property = "fileListJsonObj", column = "file_list", javaType = String.class),
+            @Result(property = "status", column = "status", javaType = String.class)
+    })
+    Archive adminGetArchiveById(long id);
+
+    @Select("""
+            SELECT id, slug, title
             FROM archive
             ORDER BY id
             LIMIT #{limit} OFFSET #{offset};
             """)
     @Results({
+            @Result(property = "archiveId", column = "id", javaType = Long.class),
             @Result(property = "archiveSlug", column = "slug", javaType = String.class),
             @Result(property = "archiveName", column = "title", javaType = String.class)
     })
@@ -59,15 +75,22 @@ public interface ArchiveMapper {
     long adminGetArchiveCount();
 
     @Insert("""
-            INSERT INTO archive(slug, title, description, file_list, status)
-            VALUES(#{slug}, #{title}, #{description}, #{fileListJsonObj}, #{status})
-            ON CONFLICT(slug) DO UPDATE SET
+            INSERT INTO archive(id, slug, title, description, file_list, status)
+            VALUES(#{id}, #{slug}, #{title}, #{description}, #{fileListJsonObj}, #{status})
+            ON CONFLICT(id) DO UPDATE SET
+            slug = excluded.slug,
             title = excluded.title,
             description = excluded.description,
             file_list = excluded.file_list,
             status = excluded.status;
             """)
-    void adminSaveArchive(Archive archive);
+    void adminEditArchive(Archive archive);
+
+    @Insert("""
+            INSERT INTO archive(slug, title, description, file_list, status)
+            VALUES(#{slug}, #{title}, #{description}, #{fileListJsonObj}, #{status})
+            """)
+    void adminNewArchive(Archive archive);
 
     @Select("""
             SELECT count(*)

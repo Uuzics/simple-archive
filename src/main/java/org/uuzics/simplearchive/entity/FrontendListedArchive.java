@@ -8,4 +8,6 @@ public class FrontendListedArchive {
     private String archiveName;
     @Getter @Setter
     private String archiveSlug;
+    @Getter @Setter
+    private long archiveId;
 }

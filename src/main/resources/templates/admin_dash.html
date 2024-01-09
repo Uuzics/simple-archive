@@ -43,12 +43,12 @@
             + '<tr><th>Archive</th><th>Operation</th></tr>'
             + archiveList.map(
                 archiveItem => '<tr><td><a href="/admin/view/'
-                    + archiveItem.archiveSlug
+                    + archiveItem.archiveId
                     + '" target="_blank">'
                     + archiveItem.archiveName
                     + '</a></td>'
                     + '<td><a href="/admin/edit/'
-                    + archiveItem.archiveSlug
+                    + archiveItem.archiveId
                     + '" target="_blank">'
                     + 'Edit'
                     + '</a></td></tr>'

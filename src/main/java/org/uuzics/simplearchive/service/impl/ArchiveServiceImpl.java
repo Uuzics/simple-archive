@@ -25,6 +25,11 @@ public class ArchiveServiceImpl implements ArchiveService {
     }
 
     @Override
+    public Archive adminGetArchiveById(long id) {
+        return this.archiveMapper.adminGetArchiveById(id);
+    }
+
+    @Override
     public List<FrontendListedArchive> adminGetPaginatedArchive(long limit, long offset) {
         List<FrontendListedArchive> archiveList = this.archiveMapper.adminGetPaginatedArchive(limit, offset);
         for (FrontendListedArchive archiveItem : archiveList) {
@@ -41,8 +46,12 @@ public class ArchiveServiceImpl implements ArchiveService {
     }
 
     @Override
-    public void adminSaveArchive(Archive archive) {
-        this.archiveMapper.adminSaveArchive(archive);
+    public void adminEditArchive(Archive archive) {
+        this.archiveMapper.adminEditArchive(archive);
+    }
+
+    public void adminNewArchive(Archive archive) {
+        this.archiveMapper.adminNewArchive(archive);
     }
 
     @Override

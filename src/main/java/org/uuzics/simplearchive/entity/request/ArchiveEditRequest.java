@@ -8,6 +8,8 @@ import java.util.List;
 
 public class ArchiveEditRequest {
     @Getter @Setter
+    private long archiveId;
+    @Getter @Setter
     private String archiveName;
     @Getter @Setter
     private String archiveSlug;

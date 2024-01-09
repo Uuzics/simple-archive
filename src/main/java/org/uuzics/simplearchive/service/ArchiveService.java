@@ -10,11 +10,15 @@ public interface ArchiveService {
 
     Archive adminGetArchiveBySlug(String slug);
 
+    Archive adminGetArchiveById(long id);
+
     List<FrontendListedArchive> adminGetPaginatedArchive(long limit, long offset);
 
     long adminGetArchiveCount();
 
-    void adminSaveArchive(Archive archive);
+    void adminEditArchive(Archive archive);
+
+    void adminNewArchive(Archive archive);
 
     long adminCheckArchiveSlug(String slug);
 }

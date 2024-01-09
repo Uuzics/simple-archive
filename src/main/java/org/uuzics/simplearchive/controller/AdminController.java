@@ -28,30 +28,28 @@ public class AdminController {
     }
     @RequestMapping(value = "/new", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
     public String handleEditorNew(Model model){
-        model.addAttribute("editorMode", "new");
-        return "admin_editor";
+        return "admin_editor_new";
     }
 
-    @RequestMapping(value = "/edit/{archiveSlug}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
-    public String handleEditorEdit(@PathVariable("archiveSlug") String archiveSlug, Model model) {
-        Archive archive = this.archiveService.adminGetArchiveBySlug(archiveSlug);
+    @RequestMapping(value = "/edit/{archiveId}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String handleEditorEdit(@PathVariable("archiveId") long archiveId, Model model) {
+        Archive archive = this.archiveService.adminGetArchiveById(archiveId);
         if (null != archive) {
-            model.addAttribute("editorMode", "edit");
             String fileListJsonObj = archive.getFileListJsonObj();
             Type fileListType = new TypeToken<List<File>>() {
             }.getType();
             List<File> fileList = new Gson().fromJson(fileListJsonObj, fileListType);
             model.addAttribute("fileList", fileList);
             model.addAttribute("archive", archive);
-            return "admin_editor";
+            return "admin_editor_edit";
         } else {
             return "not_found";
         }
     }
 
-    @RequestMapping(value = "/view/{archiveSlug}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
-    public String handleViewer(@PathVariable("archiveSlug") String archiveSlug, Model model) {
-        Archive archive = this.archiveService.adminGetArchiveBySlug(archiveSlug);
+    @RequestMapping(value = "/view/{archiveId}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String handleViewer(@PathVariable("archiveId") long archiveId, Model model) {
+        Archive archive = this.archiveService.adminGetArchiveById(archiveId);
         if (null != archive) {
             String fileListJsonObj = archive.getFileListJsonObj();
             Type fileListType = new TypeToken<List<File>>() {
