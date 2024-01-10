@@ -21,4 +21,6 @@ public interface ArchiveService {
     void adminNewArchive(Archive archive);
 
     long adminCheckArchiveSlug(String slug);
+
+    void adminDeleteArchiveById(long id);
 }

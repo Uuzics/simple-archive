@@ -67,4 +67,18 @@ public class AdminController {
             return "not_found";
         }
     }
+
+    @RequestMapping(value = "/delete/{archiveId}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String handleDelete(@PathVariable("archiveId") long archiveId, Model model) {
+        Archive archive = this.archiveService.adminGetArchiveById(archiveId);
+        if (null != archive) {
+            model.addAttribute("title", archive.getTitle());
+            model.addAttribute("description", archive.getDescription());
+            model.addAttribute("id", archiveId);
+            model.addAttribute("slug", archive.getSlug());
+            return "admin_delete";
+        } else {
+            return "not_found";
+        }
+    }
 }

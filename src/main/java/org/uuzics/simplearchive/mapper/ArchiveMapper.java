@@ -98,4 +98,10 @@ public interface ArchiveMapper {
             WHERE slug=#{slug}
             """)
     long adminCheckArchiveSlug(String slug);
+
+    @Delete("""
+            DELETE FROM archive
+            WHERE id = #{id}
+            """)
+    void adminDeleteArchiveById(long id);
 }

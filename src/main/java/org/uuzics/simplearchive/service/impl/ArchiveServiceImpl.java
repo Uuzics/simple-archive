@@ -58,4 +58,9 @@ public class ArchiveServiceImpl implements ArchiveService {
     public long adminCheckArchiveSlug(String slug) {
         return this.archiveMapper.adminCheckArchiveSlug(slug);
     }
+
+    @Override
+    public void adminDeleteArchiveById(long id) {
+        this.archiveMapper.adminDeleteArchiveById(id);
+    }
 }

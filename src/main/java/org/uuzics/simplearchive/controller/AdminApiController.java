@@ -7,7 +7,9 @@ import org.uuzics.simplearchive.entity.Archive;
 import org.uuzics.simplearchive.entity.File;
 import org.uuzics.simplearchive.entity.FrontendFile;
 import org.uuzics.simplearchive.entity.FrontendListedArchive;
+import org.uuzics.simplearchive.entity.request.ArchiveDeleteRequest;
 import org.uuzics.simplearchive.entity.request.ArchiveEditRequest;
+import org.uuzics.simplearchive.entity.response.ArchiveDeleteResponse;
 import org.uuzics.simplearchive.entity.response.ArchiveEditResponse;
 import org.uuzics.simplearchive.entity.response.ArchiveSlugCheckResponse;
 import org.uuzics.simplearchive.entity.response.PaginatedArchiveListResponse;
@@ -199,6 +201,31 @@ public class AdminApiController {
         PaginatedArchiveListResponse response = new PaginatedArchiveListResponse();
         response.setPageCount(pageCount);
         response.setArchiveList(paginatedArchiveList);
+        return response;
+    }
+
+    @RequestMapping(value = "/delete_archive", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public ArchiveDeleteResponse handleArchiveDelete(@RequestBody ArchiveDeleteRequest archiveDeleteRequest) {
+        ArchiveDeleteResponse response = new ArchiveDeleteResponse();
+        response.setStatus("fail");
+        response.setStatus("Archive was not deleted.");
+        try {
+            long requestArchiveId = archiveDeleteRequest.getArchiveId();
+            String requestArchiveSlug = archiveDeleteRequest.getArchiveSlug();
+            Archive dbArchive = archiveService.adminGetArchiveById(requestArchiveId);
+            if (requestArchiveSlug.equals(dbArchive.getSlug())) {
+                archiveService.adminDeleteArchiveById(dbArchive.getId());
+                response.setStatus("success");
+                response.setMessage("Archive was deleted.");
+            } else {
+                response.setStatus("fail");
+                response.setMessage("Input did not match archive slug.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus("fail");
+            response.setMessage("Internal Server Error.");
+        }
         return response;
     }
 }

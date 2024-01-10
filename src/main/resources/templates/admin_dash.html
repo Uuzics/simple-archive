@@ -40,7 +40,7 @@
     function updateList(archiveList) {
         var archiveListDiv = document.getElementById('archiveList');
         archiveListDiv.innerHTML = '<table>'
-            + '<tr><th>Archive</th><th>Operation</th></tr>'
+            + '<tr><th>Archive</th><th colspan="2">Operation</th></tr>'
             + archiveList.map(
                 archiveItem => '<tr><td><a href="/admin/view/'
                     + archiveItem.archiveId
@@ -49,8 +49,13 @@
                     + '</a></td>'
                     + '<td><a href="/admin/edit/'
                     + archiveItem.archiveId
-                    + '" target="_blank">'
+                    + '">'
                     + 'Edit'
+                    + '</a></td>'
+                    + '<td><a href="/admin/delete/'
+                    + archiveItem.archiveId
+                    + '">'
+                    + 'Delete'
                     + '</a></td></tr>'
                 ).join('')
             + '</table>';
