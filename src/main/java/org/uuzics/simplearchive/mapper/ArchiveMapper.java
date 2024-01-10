@@ -74,6 +74,13 @@ public interface ArchiveMapper {
             """)
     long adminGetArchiveCount();
 
+    @Select("""
+            SELECT count(*)
+            FROM ARCHIVE
+            WHERE title LIKE '%' || #{keyword} || '%' OR slug LIKE '%' || #{keyword} || '%'
+            """)
+    long adminSearchArchiveCount(String keyword);
+
     @Insert("""
             INSERT INTO archive(id, slug, title, description, file_list, status)
             VALUES(#{id}, #{slug}, #{title}, #{description}, #{fileListJsonObj}, #{status})
@@ -104,4 +111,18 @@ public interface ArchiveMapper {
             WHERE id = #{id}
             """)
     void adminDeleteArchiveById(long id);
+
+    @Select("""
+            SELECT id, slug, title
+            FROM archive
+            WHERE title LIKE '%' || #{keyword} || '%' OR slug LIKE '%' || #{keyword} || '%'
+            ORDER BY id
+            LIMIT #{limit} OFFSET #{offset};
+            """)
+    @Results({
+            @Result(property = "archiveId", column = "id", javaType = Long.class),
+            @Result(property = "archiveSlug", column = "slug", javaType = String.class),
+            @Result(property = "archiveName", column = "title", javaType = String.class)
+    })
+    List<FrontendListedArchive> adminSearchPaginatedArchive(long limit, long offset, String keyword);
 }

@@ -46,6 +46,11 @@ public class ArchiveServiceImpl implements ArchiveService {
     }
 
     @Override
+    public long adminSearchArchiveCount(String keyword) {
+        return this.archiveMapper.adminSearchArchiveCount(keyword);
+    }
+
+    @Override
     public void adminEditArchive(Archive archive) {
         this.archiveMapper.adminEditArchive(archive);
     }
@@ -62,5 +67,10 @@ public class ArchiveServiceImpl implements ArchiveService {
     @Override
     public void adminDeleteArchiveById(long id) {
         this.archiveMapper.adminDeleteArchiveById(id);
+    }
+
+    @Override
+    public List<FrontendListedArchive> adminSearchPaginatedArchive(long limit, long offset, String keyword) {
+        return this.archiveMapper.adminSearchPaginatedArchive(limit, offset, keyword);
     }
 }

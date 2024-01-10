@@ -204,6 +204,19 @@ public class AdminApiController {
         return response;
     }
 
+    @RequestMapping(value = "/search_archive", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public PaginatedArchiveListResponse handlePaginatedArchiveSearch(@RequestParam("page") long page, @RequestParam("keyword") String keyword) {
+        final long pageSize = 10;
+        long archiveNum = this.archiveService.adminSearchArchiveCount(keyword);
+        long pageCount = new BigDecimal(archiveNum).divide(new BigDecimal(pageSize), RoundingMode.UP).longValue();
+        List<FrontendListedArchive> paginatedArchiveList = this.archiveService.adminSearchPaginatedArchive(
+                pageSize, Math.min(archiveNum, (page - 1) * pageSize), keyword);
+        PaginatedArchiveListResponse response = new PaginatedArchiveListResponse();
+        response.setPageCount(pageCount);
+        response.setArchiveList(paginatedArchiveList);
+        return response;
+    }
+
     @RequestMapping(value = "/delete_archive", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public ArchiveDeleteResponse handleArchiveDelete(@RequestBody ArchiveDeleteRequest archiveDeleteRequest) {
         ArchiveDeleteResponse response = new ArchiveDeleteResponse();

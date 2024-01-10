@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.uuzics.simplearchive.entity.Archive;
 import org.uuzics.simplearchive.entity.File;
 import org.uuzics.simplearchive.service.ArchiveService;
@@ -79,6 +80,21 @@ public class AdminController {
             return "admin_delete";
         } else {
             return "not_found";
+        }
+    }
+
+    @RequestMapping(value = "/search", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String handleSearch(@RequestParam("keyword") String keyword, Model model) {
+        if (null != keyword && !("".equals(keyword))) {
+            model.addAttribute("keyword", keyword);
+            return "admin_search";
+        } else {
+            model.addAttribute("title", "Internal Error");
+            model.addAttribute("heading", "Invalid search keyword");
+            model.addAttribute("description", """
+                        Please check search keyword.
+                        """);
+            return "custom_error";
         }
     }
 }

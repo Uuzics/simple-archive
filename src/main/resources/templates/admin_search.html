@@ -1,44 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title>Archive Dashboard</title>
-    <style>
-        table, th, td {
-            border: 1px solid black;
-            border-collapse: collapse;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Archive Search</title>
+  <style>
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+   </style>
 </head>
 <body>
-<h1>Archive Dashboard</h1>
+<h1>Archive Search</h1>
 <hr/>
 <a href="/admin/dash">Dashboard</a>
 <a href="/admin/new">New Archive</a>
 <hr/>
-<div>
-    <h2>Archive Search</h2>
-    <form id="searchForm">
-        <input type="text" id="keyword" name="keyword" required>
-        <button type="button" onclick="submitSearch()">Search</button>
-    </form>
-</div>
 
 <div id="archiveListContainer">
-    <h2>Archive Navigator</h2>
-    <div id="pageControl"></div>
-    <div id="archiveList"></div>
+  <h2>Search result for "<span th:text="${keyword}">keyword</span>"</h2>
+  <div id="pageControl"></div>
+  <div id="archiveList"></div>
 </div>
 
-<script>
-    function submitSearch() {
-            var keyword = document.getElementById("keyword").value;
-            var url = "/admin/search?keyword=" + encodeURIComponent(keyword);
-            window.open(url, "_blank");
-        }
-
+<script th:inline="javascript">
     function fetchData(pageNumber) {
-        fetch('/admin/api/list_archive?page=' + pageNumber)
+        const keyword = /*[[${keyword}]]*/ 'keyword';
+        fetch('/admin/api/search_archive?page=' + pageNumber + '&keyword=' + encodeURIComponent(keyword))
             .then(response => response.json())
             .then(data => {
                 updateList(data.archiveList);
@@ -135,6 +123,5 @@
 
     window.onload = initPage;
 </script>
-
 </body>
 </html>

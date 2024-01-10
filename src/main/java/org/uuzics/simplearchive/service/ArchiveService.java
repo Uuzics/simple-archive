@@ -16,6 +16,8 @@ public interface ArchiveService {
 
     long adminGetArchiveCount();
 
+    long adminSearchArchiveCount(String keyword);
+
     void adminEditArchive(Archive archive);
 
     void adminNewArchive(Archive archive);
@@ -23,4 +25,6 @@ public interface ArchiveService {
     long adminCheckArchiveSlug(String slug);
 
     void adminDeleteArchiveById(long id);
+
+    List<FrontendListedArchive> adminSearchPaginatedArchive(long limit, long offset, String keyword);
 }
