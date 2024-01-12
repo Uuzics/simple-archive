@@ -13,16 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.uuzics.simplearchive;
+package org.uuzics.simplearchive.entity.request;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import lombok.Getter;
+import lombok.Setter;
+import org.uuzics.simplearchive.entity.FrontendFile;
 
-@SpringBootApplication
-public class SimpleArchiveApplication {
+import java.util.List;
 
-    public static void main(String[] args) {
-        SpringApplication.run(SimpleArchiveApplication.class, args);
-    }
-
+public class ArchiveEditRequest {
+    @Getter
+    @Setter
+    private long archiveId;
+    @Getter
+    @Setter
+    private String archiveName;
+    @Getter
+    @Setter
+    private String archiveSlug;
+    @Getter
+    @Setter
+    private String archiveStatus;
+    @Getter
+    @Setter
+    private List<FrontendFile> fileList;
+    @Getter
+    @Setter
+    private String archiveDescription;
 }

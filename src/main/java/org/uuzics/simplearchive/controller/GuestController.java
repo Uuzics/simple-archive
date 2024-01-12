@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.uuzics.simplearchive;
+package org.uuzics.simplearchive.controller;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-@SpringBootApplication
-public class SimpleArchiveApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(SimpleArchiveApplication.class, args);
+@Controller
+public class GuestController {
+    @RequestMapping(value = "/", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String handleHomePage() {
+        return "homepage";
     }
-
 }

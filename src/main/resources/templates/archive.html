@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${archive.title}">Title</title>
+</head>
+<body>
+<h1 th:text="${archive.title}">Archive Title</h1>
+<hr/>
+<h2>Description</h2>
+<p style="white-space: pre-wrap" th:text="${archive.description}">Description</p>
+<hr/>
+<h2>File List</h2>
+<th:block th:if="${#lists.isEmpty(fileList)}">
+    <p>The list is empty</p>
+</th:block>
+<ul th:unless="${#lists.isEmpty(fileList)}">
+    <li th:each="file : ${fileList}">
+        <a th:href="${file.url}" th:text="${file.name}" target="_blank">File name</a>
+    </li>
+</ul>
+<hr/>
+</body>
+</html>

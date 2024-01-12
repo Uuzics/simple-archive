@@ -13,16 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.uuzics.simplearchive;
+package org.uuzics.simplearchive.entity.response;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import lombok.Getter;
+import lombok.Setter;
+import org.uuzics.simplearchive.entity.FrontendListedArchive;
 
-@SpringBootApplication
-public class SimpleArchiveApplication {
+import java.util.List;
 
-    public static void main(String[] args) {
-        SpringApplication.run(SimpleArchiveApplication.class, args);
-    }
-
+public class PaginatedArchiveListResponse {
+    @Getter
+    @Setter
+    private long pageCount;
+    @Getter
+    @Setter
+    private List<FrontendListedArchive> archiveList;
 }

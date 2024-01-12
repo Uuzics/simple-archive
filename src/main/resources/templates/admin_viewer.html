@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Archive Viewer</title>
+</head>
+<body>
+<h1 th:text="${archive.title}">Archive Title</h1>
+<hr/>
+<a href="/admin/dash">Dashboard</a>
+<a href="/admin/new">New Archive</a>
+<form action="/admin/logout" method="post" style="float: right">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <button type="submit">Logout</button>
+</form>
+<hr/>
+
+<h2>Description</h2>
+<p style="white-space: pre-wrap" th:text="${archive.description}">Description</p>
+<hr/>
+<h2>File List</h2>
+<th:block th:if="${#lists.isEmpty(fileList)}">
+    <p>The list is empty</p>
+</th:block>
+<ul th:unless="${#lists.isEmpty(fileList)}">
+    <li th:each="file : ${fileList}">
+        <a th:href="${file.url}" th:text="${file.name}" target="_blank">File name</a>
+    </li>
+</ul>
+<hr/>
+<h2>Archive Detail</h2>
+<h3>ID</h3>
+<p th:text="${archive.id}">id</p>
+<h3>Slug</h3>
+<p th:text="${archive.slug}">slug</p>
+<h3>Status</h3>
+<p th:text="${archive.status}">status</p>
+<h3>File List (JSON)</h3>
+<p th:text="${archive.fileListJsonObj}">fileListJsonObjStr</p>
+</body>
+</html>

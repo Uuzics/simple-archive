@@ -13,16 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.uuzics.simplearchive;
+package org.uuzics.simplearchive.common;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.stereotype.Component;
+import org.uuzics.simplearchive.service.DbInitService;
 
-@SpringBootApplication
-public class SimpleArchiveApplication {
+@Component
+public class DbInitializer implements ApplicationRunner {
+    @Autowired
+    DbInitService dbInitService;
 
-    public static void main(String[] args) {
-        SpringApplication.run(SimpleArchiveApplication.class, args);
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        this.dbInitService.initArchiveTable();
     }
-
 }

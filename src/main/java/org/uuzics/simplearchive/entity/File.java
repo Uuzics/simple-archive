@@ -13,16 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.uuzics.simplearchive;
+package org.uuzics.simplearchive.entity;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import lombok.Getter;
+import lombok.Setter;
 
-@SpringBootApplication
-public class SimpleArchiveApplication {
+public class File {
+    @Getter
+    @Setter
+    private String name;
+    @Getter
+    @Setter
+    private String url;
 
-    public static void main(String[] args) {
-        SpringApplication.run(SimpleArchiveApplication.class, args);
+    public File() {
     }
 
+    public File(String name, String url) {
+        this.name = name;
+        this.url = url;
+    }
 }

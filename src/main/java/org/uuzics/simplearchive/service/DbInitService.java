@@ -13,16 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.uuzics.simplearchive;
+package org.uuzics.simplearchive.service;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-@SpringBootApplication
-public class SimpleArchiveApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(SimpleArchiveApplication.class, args);
-    }
-
+public interface DbInitService {
+    void initArchiveTable();
 }
