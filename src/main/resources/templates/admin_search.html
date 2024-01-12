@@ -15,6 +15,10 @@
 <hr/>
 <a href="/admin/dash">Dashboard</a>
 <a href="/admin/new">New Archive</a>
+<form action="/admin/logout" method="post" style="float: right">
+  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+  <button type="submit">Logout</button>
+</form>
 <hr/>
 
 <div id="archiveListContainer">
