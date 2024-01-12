@@ -97,4 +97,9 @@ public class AdminController {
             return "custom_error";
         }
     }
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String handleLogin() {
+        return "admin_login";
+    }
 }
