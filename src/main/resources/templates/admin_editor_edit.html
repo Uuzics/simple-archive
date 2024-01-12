@@ -84,6 +84,7 @@
         fetch('/admin/api/edit_archive', {
             method: 'POST',
             headers: {
+                'X-CSRF-Token': /*[[${_csrf.token}]]*/ -1,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(formData),
