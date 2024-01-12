@@ -23,9 +23,9 @@
 
 <div>
     <h2>Archive Search</h2>
-    <form id="searchForm">
+    <form action="/admin/search" method="get" target="_blank" id="searchForm">
         <input type="text" id="keyword" name="keyword" required>
-        <button type="button" onclick="submitSearch()">Search</button>
+        <button type="submit">Search</button>
     </form>
 </div>
 
@@ -36,12 +36,6 @@
 </div>
 
 <script>
-    function submitSearch() {
-            var keyword = document.getElementById("keyword").value;
-            var url = "/admin/search?keyword=" + encodeURIComponent(keyword);
-            window.open(url, "_blank");
-        }
-
     function fetchData(pageNumber) {
         fetch('/admin/api/list_archive?page=' + pageNumber)
             .then(response => response.json())
