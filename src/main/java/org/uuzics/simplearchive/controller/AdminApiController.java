@@ -40,7 +40,7 @@ public class AdminApiController {
             List<FrontendFile> fileList = archiveEditRequest.getFileList();
             boolean flag = true;
             // Check id
-            if(null == archiveService.adminGetArchiveById(archiveEditRequest.getArchiveId())) {
+            if (null == archiveService.adminGetArchiveById(archiveEditRequest.getArchiveId())) {
                 flag = false;
                 response.setStatus("fail");
                 response.setMessage("Invalid archive ID.");
@@ -54,7 +54,7 @@ public class AdminApiController {
             }
             // Check slug conflict for existing archive
             Archive archiveCheck = archiveService.adminGetArchiveBySlug(slug);
-            if (flag && (null != archiveCheck && archiveEditRequest.getArchiveId() != archiveCheck.getId())){
+            if (flag && (null != archiveCheck && archiveEditRequest.getArchiveId() != archiveCheck.getId())) {
                 flag = false;
                 response.setStatus("fail");
                 response.setMessage("Slug conflict. Slug was already used by another archive.");

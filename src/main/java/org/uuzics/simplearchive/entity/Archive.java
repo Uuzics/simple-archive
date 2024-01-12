@@ -4,17 +4,23 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Archive {
-    @Getter @Setter
+    @Getter
+    @Setter
     private long id;
-    @Getter @Setter
+    @Getter
+    @Setter
     private String slug;
-    @Getter @Setter
+    @Getter
+    @Setter
     private String title; // Optional
-    @Getter @Setter
+    @Getter
+    @Setter
     private String description; // Optional
-    @Getter @Setter
+    @Getter
+    @Setter
     private String fileListJsonObj;
-    @Getter @Setter
+    @Getter
+    @Setter
     private String status;
 
     public static Archive convertToDisplayArchive(Archive archive) {

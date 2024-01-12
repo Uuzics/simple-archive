@@ -4,8 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class ArchiveDeleteRequest {
-    @Getter @Setter
+    @Getter
+    @Setter
     private long archiveId;
-    @Getter @Setter
+    @Getter
+    @Setter
     private String archiveSlug;
 }

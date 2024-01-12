@@ -4,10 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class FrontendListedArchive {
-    @Getter @Setter
+    @Getter
+    @Setter
     private String archiveName;
-    @Getter @Setter
+    @Getter
+    @Setter
     private String archiveSlug;
-    @Getter @Setter
+    @Getter
+    @Setter
     private long archiveId;
 }

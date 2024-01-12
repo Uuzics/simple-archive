@@ -24,11 +24,12 @@ public class AdminController {
     private ArchiveService archiveService;
 
     @RequestMapping(value = "/dash", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
-    public String handleDashboard(Model model){
+    public String handleDashboard(Model model) {
         return "admin_dash";
     }
+
     @RequestMapping(value = "/new", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
-    public String handleEditorNew(Model model){
+    public String handleEditorNew(Model model) {
         return "admin_editor_new";
     }
 
@@ -92,8 +93,8 @@ public class AdminController {
             model.addAttribute("title", "Internal Error");
             model.addAttribute("heading", "Invalid search keyword");
             model.addAttribute("description", """
-                        Please check search keyword.
-                        """);
+                    Please check search keyword.
+                    """);
             return "custom_error";
         }
     }

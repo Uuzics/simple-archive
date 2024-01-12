@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class ArchiveSlugCheckResponse {
-    @Getter @Setter
+    @Getter
+    @Setter
     String status;
 }

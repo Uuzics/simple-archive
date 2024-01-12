@@ -4,9 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class File {
-    @Getter @Setter
+    @Getter
+    @Setter
     private String name;
-    @Getter @Setter
+    @Getter
+    @Setter
     private String url;
 
     public File() {

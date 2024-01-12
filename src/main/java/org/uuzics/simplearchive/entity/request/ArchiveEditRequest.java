@@ -7,16 +7,22 @@ import org.uuzics.simplearchive.entity.FrontendFile;
 import java.util.List;
 
 public class ArchiveEditRequest {
-    @Getter @Setter
+    @Getter
+    @Setter
     private long archiveId;
-    @Getter @Setter
+    @Getter
+    @Setter
     private String archiveName;
-    @Getter @Setter
+    @Getter
+    @Setter
     private String archiveSlug;
-    @Getter @Setter
+    @Getter
+    @Setter
     private String archiveStatus;
-    @Getter @Setter
+    @Getter
+    @Setter
     private List<FrontendFile> fileList;
-    @Getter @Setter
+    @Getter
+    @Setter
     private String archiveDescription;
 }

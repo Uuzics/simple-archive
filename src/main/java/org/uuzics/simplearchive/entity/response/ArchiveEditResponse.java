@@ -4,8 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class ArchiveEditResponse {
-    @Getter @Setter
+    @Getter
+    @Setter
     private String status;
-    @Getter @Setter
+    @Getter
+    @Setter
     private String message;
 }
